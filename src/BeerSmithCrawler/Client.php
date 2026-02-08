@@ -1,7 +1,8 @@
 <?php
 
-namespace Crawler;
+namespace Crawler\BeerSmithCrawler;
 
+use Crawler\Config;
 use GuzzleHttp\Client as GuzzleClient;
 use GuzzleHttp\Exception\GuzzleException;
 use Psr\Http\Message\ResponseInterface;

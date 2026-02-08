@@ -1,8 +1,7 @@
 <?php
 
-namespace Crawler\Recipes;
+namespace Crawler\BeerSmithCrawler;
 
-use Crawler\Client;
 use Crawler\Config;
 use GuzzleHttp\Exception\GuzzleException;
 

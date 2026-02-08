@@ -1,6 +1,6 @@
 <?php
 
-namespace Crawler\Recipes;
+namespace Crawler\BeerSmithCrawler;
 
 use Dom\HTMLDocument;
 
