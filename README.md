@@ -7,6 +7,9 @@ This project crawls recipes from BeerSmith and stores them as JSON files. It inc
 - Crawl BeerSmith recipe search results by term, depth (pages), sort order, rating, and recipe type.
 - Save the crawl results to `recipes/` as a JSON file.
 - Preview one or more saved files in the browser with merged statistics, filters, and recipes.
+Currently only supports crawling recipes from BeerSmith.
+
+Built with PHP for the crawler/API and Vue + Vite + Tailwind CSS for the UI.
 
 ## Frontend (Vue + Vite)
 
