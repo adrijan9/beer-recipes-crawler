@@ -3,9 +3,9 @@
 require 'vendor/autoload.php';
 
 use Crawler\Arg;
+use Crawler\BeerSmithCrawler\Crawl;
 use Crawler\Config;
 use Crawler\File;
-use Crawler\Recipes\Crawl;
 
 function printFullHelp(Config $config): void
 {

@@ -9,10 +9,10 @@ if ('POST' !== $_SERVER['REQUEST_METHOD']) {
 
 require __DIR__.'/../../vendor/autoload.php';
 
+use Crawler\BeerSmithCrawler\Crawl;
 use Crawler\Config;
 use Crawler\Exceptions\ToResponse;
 use Crawler\File;
-use Crawler\Recipes\Crawl;
 
 try {
     // -----------------
