@@ -1,0 +1,25 @@
+{
+  "name": "adrijan991/beer-smith-crawler",
+  "type": "project",
+  "license": "MIT",
+  "php": ">=8.4",
+  "autoload": {
+    "psr-4": {
+      "Crawler\\": "src/"
+    }
+  },
+  "authors": [
+    {
+      "name": "Adrijan Mitrov",
+      "email": "adrijan9@gmail.com"
+    }
+  ],
+  "require-dev": {
+    "symfony/var-dumper": "^8.0",
+    "php-cs-fixer/shim": "^3.93"
+  },
+  "require": {
+    "guzzlehttp/guzzle": "^7.0",
+    "ext-dom": "*"
+  }
+}
