@@ -34,12 +34,23 @@
           @cancel-clear-all="cancelClearAll"
           @open-crawl-modal="openCrawlModal"
           @update-selection="updateSelection"
-          @clear-selection-at="clearSelectionAt"
+          @remove-file-at="removeFileAt"
           @clear-selection="clearSelection"
         />
 
+        <section
+          v-if="hasSelections && loadingRecipes"
+          class="rounded-2xl border border-border bg-card p-6 shadow-soft"
+        >
+          <div class="flex flex-col items-center justify-center py-8 text-center">
+            <div class="h-12 w-12 animate-spin rounded-full border-4 border-ink/20 border-t-ink"></div>
+            <p class="mt-4 text-xs font-semibold uppercase tracking-[0.25em] text-ink-soft">Loading...</p>
+            <p class="mt-2 text-sm text-ink-soft">Getting recipe file details...</p>
+          </div>
+        </section>
+
         <StatisticsSection
-          v-if="hasSelections"
+          v-if="hasSelections && !loadingRecipes"
           :stats="stats"
           :merged-meta="mergedMeta"
           :per-file-meta="perFileMeta"
@@ -49,7 +60,7 @@
         />
 
         <LocalSearchSection
-          v-if="hasSelections"
+          v-if="hasSelections && !loadingRecipes"
           v-model:searchTerm="searchTerm"
           v-model:ratingFilter="ratingFilter"
           v-model:ratingComparator="ratingComparator"
@@ -62,7 +73,7 @@
         />
 
         <RecipesSection
-          v-if="hasSelections"
+          v-if="hasSelections && !loadingRecipes"
           v-model:sortKey="sortKey"
           v-model:sortOrder="sortOrder"
           :sorted-recipes="sortedRecipes"
@@ -360,12 +371,37 @@ function updateSelection(index, event) {
   selectedFiles.value = filtered;
 }
 
-function clearSelectionAt(index) {
+async function removeFileAt(index) {
   const current = normalizeSelections(selectedFiles.value);
-  if (index < current.length) {
-    current.splice(index, 1);
+  if (index >= current.length) {
+    return;
   }
-  selectedFiles.value = current;
+
+  const target = current[index];
+  errorMessage.value = '';
+
+  try {
+    const response = await fetch(`/api/delete_recipe.php?recipe=${encodeURIComponent(target)}`, {
+      method: 'DELETE',
+    });
+    let data = null;
+    try {
+      data = await response.json();
+    } catch {
+      data = null;
+    }
+
+    if (!response.ok || !data || data.success !== true) {
+      const message = data && data.error ? data.error : 'Failed to remove recipe file.';
+      throw new Error(message);
+    }
+
+    current.splice(index, 1);
+    selectedFiles.value = current;
+    files.value = files.value.filter((file) => file !== target);
+  } catch (error) {
+    errorMessage.value = error?.message || 'Failed to remove recipe file.';
+  }
 }
 
 async function fetchFiles() {

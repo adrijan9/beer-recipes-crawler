@@ -13,7 +13,11 @@
           @click="emit('refresh-files')"
           :disabled="loadingFiles"
         >
-          Refresh list
+          <span v-if="loadingFiles" class="inline-flex items-center gap-2">
+            <span class="h-4 w-4 animate-spin rounded-full border-2 border-ink/20 border-t-ink"></span>
+            Refreshing...
+          </span>
+          <span v-else>Refresh list</span>
         </button>
         <button
           v-if="!showClearAllConfirm"
@@ -53,7 +57,13 @@
 
     <div class="mt-4 grid gap-4 lg:grid-cols-[1fr_auto]">
       <div class="rounded-xl border border-border bg-paper p-3">
-        <div v-if="files.length === 0" class="rounded-lg border border-border bg-card px-3 py-4 text-sm text-ink-soft">
+        <div v-if="loadingFiles" class="rounded-lg border border-border bg-card px-3 py-4 text-sm text-ink-soft">
+          <span class="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em]">
+            <span class="h-4 w-4 animate-spin rounded-full border-2 border-ink/20 border-t-ink"></span>
+            Refreshing files...
+          </span>
+        </div>
+        <div v-else-if="files.length === 0" class="rounded-lg border border-border bg-card px-3 py-4 text-sm text-ink-soft">
           No saved recipe files yet.
         </div>
         <div v-else class="flex flex-col gap-2">
@@ -139,7 +149,7 @@ const emit = defineEmits([
   'cancel-clear-all',
   'open-crawl-modal',
   'update-selection',
-  'clear-selection-at',
+  'remove-file-at',
   'clear-selection',
 ]);
 
@@ -150,6 +160,6 @@ function handleUpdate(index, event) {
 }
 
 function handleClear(index) {
-  emit('clear-selection-at', index);
+  emit('remove-file-at', index);
 }
 </script>
